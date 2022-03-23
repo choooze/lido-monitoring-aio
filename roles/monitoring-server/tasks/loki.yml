@@ -41,3 +41,12 @@
     owner: "{{ monitoring_user }}"
     group: "{{ monitoring_user }}"
     mode: 0644
+
+- name: "Install Loki Docker Driver"
+  shell: >
+    /usr/bin/docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+  register: result
+  failed_when: >
+    (result.rc != 0) and
+    ("already exists" not in result.stderr)
+  changed_when: "result.rc == 0"
