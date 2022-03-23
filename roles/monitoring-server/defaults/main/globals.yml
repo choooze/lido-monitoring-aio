@@ -13,7 +13,7 @@ install_mailhog: true
 
 # Didn't make anything about TLS
 # for now it's fine
-monitoring_server_fqdn: 10.213.65.63
+monitoring_server_fqdn: "localhost"
 # Common monitoring user
 monitoring_home: "/opt/monitoring"
 monitoring_user: "monitoring"
