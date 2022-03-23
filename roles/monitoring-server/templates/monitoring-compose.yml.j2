@@ -16,3 +16,7 @@ services:
 {% if install_alertmanager | bool %}
 {% include 'docker-compose/alertmanager-compose.yml.j2' %}
 {% endif %}
+
+{% if install_mailhog | bool %}
+{% include 'docker-compose/mailhog-compose.yml.j2' %}
+{% endif %}
