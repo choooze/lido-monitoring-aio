@@ -1,0 +1,14 @@
+---
+
+- name: "Add Monitoring Client User"
+  user:
+    name: "{{ monitoring_client_user }}"
+    shell: "/usr/sbin/nologin"
+
+- name: "Create Client Monitoring Stack Dir {{ monitoring_client_home }}"
+  file:
+    path: "{{ monitoring_client_home }}"
+    state: directory
+    owner: "{{ monitoring_client_user }}"
+    group: "{{ monitoring_client_user }}"
+    recurse: true

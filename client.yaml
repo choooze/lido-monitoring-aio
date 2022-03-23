@@ -1,0 +1,7 @@
+---
+- name: Installing everything that I've been asked for on client
+  become: true
+  hosts: monitoring-client
+  roles:
+#      - docker
+      - monitoring-client

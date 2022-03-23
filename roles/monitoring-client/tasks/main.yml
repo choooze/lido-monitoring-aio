@@ -1,0 +1,15 @@
+---
+
+- block:
+    - name: Pre-Installing Monitoring on Client
+      include_tasks: monitoring-client-pre-install.yml
+  tags:
+    - monitoring-client
+    - monitroing-client-pre-install
+
+- block:
+    - name: Installing Monitoring on Client
+      include_tasks: monitoring-client.yml
+  tags:
+    - monitoring-client
+    - monitroing-client-install

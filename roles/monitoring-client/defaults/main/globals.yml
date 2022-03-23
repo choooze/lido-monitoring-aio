@@ -1,0 +1,7 @@
+---
+
+monitoring_client_user: "mon-client"
+monitoring_client_home: "/opt/monitoring-client"
+
+cadvisor_version: "latest"
+nodeexporter_version: "latest"

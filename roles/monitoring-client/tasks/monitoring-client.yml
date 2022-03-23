@@ -1,0 +1,24 @@
+---
+
+- name: "Copy docker-compose file {{ monitoring_client_home }}/monitoring-client-compose.yml"
+  template:
+    src: templates/monitoring-client-compose.yml.j2
+    dest: "{{ monitoring_client_home }}/monitoring-client-compose.yml"
+    owner: "{{ monitoring_client_user }}"
+    group: "{{ monitoring_client_user }}"
+    mode: 0644
+
+- name: "Copy systemd service file /etc/systemd/system/monitoring-client.service"
+  template:
+    src: "templates/monitoring-client.service.j2"
+    dest: "/etc/systemd/system/monitoring-client.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Start monitoring service"
+  service:
+    name: monitoring-client
+    state: restarted
+    enabled: true
+    daemon_reload: true
