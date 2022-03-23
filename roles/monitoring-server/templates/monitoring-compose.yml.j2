@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+
+{% if install_loki | bool %}
+{% include 'docker-compose/loki-compose.yml.j2' %}
+{% endif %}
+
+{% if install_grafana | bool %}
+{% include 'docker-compose/grafana-compose.yml.j2' %}
+{% endif %}
+
+{% if install_prometheus | bool %}
+{% include 'docker-compose/prometheus-compose.yml.j2' %}
+{% endif %}
+
+{% if install_alertmanager | bool %}
+{% include 'docker-compose/alertmanager-compose.yml.j2' %}
+{% endif %}

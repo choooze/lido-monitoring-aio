@@ -1,0 +1,18 @@
+  loki:
+    image: grafana/loki:{{ loki_version }}
+    volumes:
+      - "{{ loki_data_dir}}:/data/loki"
+      - "{{ loki_cfg_dir }}/loki.yml:/etc/loki/local-config.yaml:ro"
+      - "{{ loki_cfg_dir }}/loki_alerts.yml:/etc/loki/rules/alerts/rules.yml:ro"
+    ports:
+      - "{{ loki_publish_port }}:3100"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "{{ loki_cpu_limit }}"
+          memory: "{{ loki_mem_limit }}"
+        reservations:
+          cpus: "{{ loki_cpu_reserv }}"
+          memory: "{{ loki_mem_reserv }}"
+

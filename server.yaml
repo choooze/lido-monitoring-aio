@@ -1,0 +1,7 @@
+---
+- name: Installing everything that I've been asked for
+  become: true
+  hosts: monitoring-server
+  roles:
+#      - docker
+      - monitoring-server

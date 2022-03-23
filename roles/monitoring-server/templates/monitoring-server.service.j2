@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitoring docker-compose stack
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory={{ monitoring_home }}
+ExecStart=/usr/local/bin/docker-compose -f monitoring-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f monitroing-compose.yml down -v
+
+[Install]
+WantedBy=multi-user.target

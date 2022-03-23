@@ -1,0 +1,47 @@
+---
+
+- block:
+    - name: Include tasks from pre-install monitoring role
+      include_tasks: pre-install.yml
+  tags:
+    - monitoring-server
+    - monitoring-pre-install
+
+- block:
+    - name: Include tasks from prometheus role
+      include_tasks: prometheus.yml
+  when: install_prometheus | bool
+  tags:
+    - monitoring-server
+    - monitoring-prometheus
+
+- block:
+    - name: Include tasks from grafana role
+      include_tasks: grafana.yml
+  when: install_grafana | bool
+  tags:
+    - monitoring-server
+    - monitoring-grafana
+
+- block:
+    - name: Include tasks from loki role
+      include_tasks: loki.yml
+  when: install_loki | bool
+  tags:
+    - monitoring-server
+    - monitoring-loki
+
+- block:
+    - name: Include tasks from alertmanager role
+      include_tasks: alertmanager.yml
+  when: install_alertmanager | bool
+  tags:
+    - monitoring-server
+    - monitoring-alertmanager
+
+- block:
+    - name: Include tasks from post-install monitroing role
+      include_tasks: post-install.yml
+  tags:
+    - monitoring-server
+    - monitoring-post-install

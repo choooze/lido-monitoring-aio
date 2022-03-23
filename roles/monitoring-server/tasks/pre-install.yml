@@ -1,0 +1,20 @@
+---
+
+- name: "Add Monitoring user"
+  user:
+    name: "{{ monitoring_user }}"
+    shell: "/usr/sbin/nologin"
+  tags:
+    - monitoring-server
+    - monitoring-preinstall
+
+- name: "Create monitoring stack dir {{ monitoring_home }}"
+  file:
+    path: "{{ monitoring_home }}"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    recurse: true
+  tags:
+    - monitoring-server
+    - monitoring-preinstall

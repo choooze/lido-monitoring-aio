@@ -1,0 +1,12 @@
+  alertmanager:
+    image: prom/alertmanager:{{ alertmanager_version }}
+    command:
+      - "--storage.path=/data"
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--web.external-url=http://{{ monitoring_server_fqdn }}:9093"
+    volumes:
+      - "{{ alertmanager_data_dir }}:/data"
+      - "{{ alertmanager_cfg_dir }}/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro"
+    ports:
+      - "{{ alertmanager_publish_port }}:9093"
+

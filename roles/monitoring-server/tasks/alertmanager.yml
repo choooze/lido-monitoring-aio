@@ -1,0 +1,35 @@
+---
+
+- name: "Add AlertManager group"
+  group:
+    name: "{{ alertmanager_data_group }}"
+    gid: 10010
+
+- name: "Add AlertManager user"
+  user:
+    name: "{{ alertmanager_data_user }}"
+    shell: "/usr/sbin/nologin"
+    group: "{{ alertmanager_data_group }}"
+    uid: 10010
+
+- name: "Create AlertManager cfg dir {{ alertmanager_cfg_dir }}"
+  file:
+    path: "{{ alertmanager_cfg_dir }}"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+
+- name: "Create AlertManager data dir {{ alertmanager_data_dir }}"
+  file:
+    path: "{{ alertmanager_data_dir }}"
+    state: directory
+    owner: "{{ alertmanager_data_user }}"
+    group: "{{ alertmanager_data_group }}"
+
+- name: "Copy AlertManager server config {{ alertmanager_cfg_dir }}/alertmanager.yml"
+  template:
+    src: "templates/alertmanager/alertmanager.yml.j2"
+    dest: "{{ alertmanager_cfg_dir }}/alertmanager.yml"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644

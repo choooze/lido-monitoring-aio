@@ -1,0 +1,43 @@
+---
+
+- name: "Add Loki group"
+  group:
+    name: "{{ loki_data_group }}"
+    gid: 10001
+
+- name: "Add Loki user"
+  user:
+    name: "{{ loki_data_user }}"
+    shell: "/usr/sbin/nologin"
+    group: "{{ loki_data_group }}"
+    uid: 10001
+
+- name: "Create Loki cfg dir {{ loki_cfg_dir }}"
+  file:
+    path: "{{ loki_cfg_dir }}"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+
+- name: "Create Loki data dir {{ loki_data_dir }}"
+  file:
+    path: "{{ loki_data_dir }}"
+    state: directory
+    owner: "{{ loki_data_user }}"
+    group: "{{ loki_data_group }}"
+
+- name: "Copy Loki server config {{ loki_cfg_dir }}/loki.yml"
+  template:
+    src: "templates/loki/loki.yml.j2"
+    dest: "{{ loki_cfg_dir }}/loki.yml"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644
+
+- name: "Copy Loki alerts config {{ loki_cfg_dir }}/alerts.yml"
+  template:
+    src: "templates/loki/alerts.yml.j2"
+    dest: "{{ loki_cfg_dir }}/alerts.yml"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644

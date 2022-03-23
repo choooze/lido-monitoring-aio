@@ -1,0 +1,18 @@
+---
+####################
+# Loki stuff
+####################
+
+loki_cfg_dir: "/opt/loki"
+loki_data_dir: "/data/loki"
+loki_data_user: "loki"
+loki_data_group: "loki"
+
+loki_version: "latest"
+loki_publish_port: "3100"
+
+loki_cpu_limit: "1"
+loki_cpu_reserv: "0.25"
+
+loki_mem_limit: "512M"
+loki_mem_reserv: "128M"

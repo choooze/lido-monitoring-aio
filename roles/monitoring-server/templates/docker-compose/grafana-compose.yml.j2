@@ -1,0 +1,20 @@
+  grafana:
+    image: grafana/grafana:{{ grafana_version }}
+    volumes:
+      - {{ grafana_data_dir }}:/var/lib/grafana
+      - {{ grafana_cfg_dir }}/grafana.ini:/etc/grafana/grafana.ini:ro
+      - {{ grafana_cfg_dir }}/grafana_datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - {{ grafana_cfg_dir }}/grafana_default_dashboard.json:/var/lib/grafana/dashboards/default_dashboard.json:ro
+      - {{ grafana_cfg_dir }}/grafana_dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+    ports:
+      - "{{ grafana_publish_port }}:3000"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "{{ grafana_cpu_limit }}"
+          memory: "{{ grafana_mem_limit }}"
+        reservations:
+          cpus: "{{ grafana_cpu_reserv }}"
+          memory: "{{ grafana_mem_reserv }}"
+

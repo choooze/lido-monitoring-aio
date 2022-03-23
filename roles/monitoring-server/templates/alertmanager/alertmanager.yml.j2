@@ -1,0 +1,12 @@
+global:
+  smtp_smarthost: 'mailhog:1025'
+  smtp_from: 'alertmanager@checkforlido.org'
+  smtp_require_tls: false
+
+route:
+  receiver: email
+
+receivers:
+  - name: email
+    email_configs:
+      - to: 'okonobeev@monitoring-server.com'

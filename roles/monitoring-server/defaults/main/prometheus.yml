@@ -1,0 +1,18 @@
+---
+####################
+# Prometheus stuff
+####################
+
+prometheus_cfg_dir: "/opt/prometheus"
+prometheus_data_dir: "/data/prometheus"
+prometheus_data_user: "nobody"
+prometheus_data_group: "nogroup"
+
+prometheus_version: "latest"
+prometheus_publish_port: "9090"
+
+prometheus_cpu_limit: "1"
+prometheus_cpu_reserv: "0.25"
+
+prometheus_mem_limit: "512M"
+prometheus_mem_reserv: "128M"

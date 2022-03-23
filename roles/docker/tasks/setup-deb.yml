@@ -1,0 +1,56 @@
+---
+- name: Install Docker's dependencies
+  apt:
+    name: "{{ docker_deb_dependencies }}"
+    state: present
+    update_cache: true
+  tags:
+    - docker
+
+- name: Add Docker's official GPG key
+  apt_key:
+    url: "{{ docker_apt_gpg_key }}"
+    state: present
+  tags:
+    - docker
+
+- name: Verify that we have the key with the fingerprint
+  apt_key:
+    id: "{{ docker_apt_key_id }}"
+    state: present
+  tags:
+    - docker
+
+- name: Set up the stable repository
+  apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    update_cache: true
+  tags:
+    - docker
+
+- name: Update apt packages
+  apt:
+    update_cache: true
+  tags:
+    - docker
+
+- name: Install docker
+  apt:
+    name: "{{ docker_package }}"
+    state: present
+    update_cache: true
+
+- name: Enable and start Docker by systemd service
+  service:
+    name: docker
+    enabled: true
+  notify: restart docker
+
+- name: Add remote "ubuntu" user to "docker" group
+  user:
+    name: "ubuntu"
+    group: "docker"
+    append: true
+  tags:
+    - docker

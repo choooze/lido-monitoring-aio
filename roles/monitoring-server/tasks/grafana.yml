@@ -1,0 +1,40 @@
+---
+
+- name: "Add Grafana group"
+  group:
+    name: "{{ grafana_data_group }}"
+    gid: 472
+
+- name: "Add Grafana user"
+  user:
+    name: "{{ grafana_data_user }}"
+    shell: "/usr/sbin/nologin"
+    group: "{{ grafana_data_group }}"
+    uid: 472
+
+- name: "Create Grafana cfg dir {{ grafana_cfg_dir }}"
+  file:
+    path: "{{ grafana_cfg_dir }}"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+
+- name: "Create Grafana data dir {{ grafana_data_dir }}"
+  file:
+    path: "{{ grafana_data_dir }}"
+    state: directory
+    owner: "{{ grafana_data_user }}"
+    group: "{{ grafana_data_group }}"
+
+- name: "Copy Grafana server configs and default dashboard to {{ grafana_cfg_dir }}"
+  template:
+    src: "templates/grafana/{{ item.src }}"
+    dest: "{{ item.dest}}"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644
+  loop:
+    - {src: 'grafana_dashboards.yml.j2', dest: '{{ grafana_cfg_dir }}/grafana_dashboards.yml'}
+    - {src: 'grafana_datasources.yml.j2', dest: '{{ grafana_cfg_dir }}/grafana_datasources.yml'}
+    - {src: 'grafana.ini.j2', dest: '{{ grafana_cfg_dir }}/grafana.ini'}
+    - {src: 'dashboards/grafana_default_dashboard.json.j2', dest: '{{ grafana_cfg_dir }}/grafana_default_dashboard.json'}
