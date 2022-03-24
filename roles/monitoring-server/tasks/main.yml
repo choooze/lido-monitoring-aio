@@ -40,6 +40,13 @@
     - monitoring-alertmanager
 
 - block:
+    - name: Adding client configuration
+      include_tasks: add-client.yml
+  tags:
+    - monitoring-server
+    - monitoring-add-client
+
+- block:
     - name: Include tasks from post-install monitroing role
       include_tasks: post-install.yml
   tags:

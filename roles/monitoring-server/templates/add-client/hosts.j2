@@ -1,0 +1,4 @@
+{% for host in groups["monitoring-client"] %}
+{% set short_name = host.split('.') %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }}       {{ host }}      {{ short_name[0] }}
+{% endfor %}

@@ -1,0 +1,14 @@
+---
+
+
+- name: Gather facts about monitroing-group
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items: "{{ groups['monitoring-client'] }}"
+
+- name: "Simulating that we have DNS. Adding info about service to /etc/hosts"
+  blockinfile:
+    content: "{{ lookup('template', 'templates/add-client/hosts.j2') }}"
+    dest: /etc/hosts
+    state: present
