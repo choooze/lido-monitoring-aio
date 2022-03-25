@@ -9,3 +9,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
+    ports:
+      - "{{ cadvisor_publish_port }}:8080"
+    labels:
+      - prometheus-job=cadvisor

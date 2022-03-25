@@ -4,4 +4,6 @@ monitoring_client_user: "mon-client"
 monitoring_client_home: "/opt/monitoring-client"
 
 cadvisor_version: "latest"
+cadvisor_publish_port: "8080"
+
 nodeexporter_version: "latest"
