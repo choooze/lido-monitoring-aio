@@ -45,6 +45,7 @@
   tags:
     - monitoring-server
     - monitoring-add-client
+    - never
 
 - block:
     - name: Include tasks from post-install monitroing role
