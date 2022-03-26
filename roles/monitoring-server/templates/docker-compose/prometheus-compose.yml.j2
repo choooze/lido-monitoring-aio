@@ -8,6 +8,7 @@
       - "{{ prometheus_data_dir }}:/prometheus/data"
       - "{{ prometheus_cfg_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
       - "{{ prometheus_cfg_dir }}/alerts.yml:/etc/prometheus/alerts.yml:ro"
+      - "{{ prometheus_cfg_dir }}/use.yml:/etc/prometheus/use.yml:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     ports:
       - "{{ prometheus_publish_port }}:9090"
