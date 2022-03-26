@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
 
 {% if install_loki | bool %}
@@ -19,4 +20,11 @@ services:
 
 {% if install_mailhog | bool %}
 {% include 'docker-compose/mailhog-compose.yml.j2' %}
+{% endif %}
+
+{% if shared_docker_network | bool %}
+networks:
+  default:
+    external:
+      name: {{ shared_docker_network_name }}
 {% endif %}

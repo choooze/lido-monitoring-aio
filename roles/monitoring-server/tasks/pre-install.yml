@@ -8,7 +8,7 @@
     - monitoring-server
     - monitoring-preinstall
 
-- name: "Create monitoring stack dir {{ monitoring_home }}"
+- name: "Create Monitoring Stack Dir {{ monitoring_home }}"
   file:
     path: "{{ monitoring_home }}"
     state: directory
@@ -18,3 +18,16 @@
   tags:
     - monitoring-server
     - monitoring-preinstall
+
+# Will not use docker_network module due to dependencies
+- name: "Check if Docker Shared Network Exists"
+  command: docker network ls -q --filter name=^{{ shared_docker_network_name }}$
+  register: shared_docker_network_exists
+  when: shared_docker_network | bool
+  changed_when: false
+
+- name: "Create Docker Shared Network"
+  command: docker network create "{{ shared_docker_network_name }}"
+  when: >
+    (shared_docker_network_exists.stdout == "") and
+    (shared_docker_network | bool )
