@@ -35,3 +35,11 @@
     owner: "{{ monitoring_user }}"
     group: "{{ monitoring_user }}"
     mode: 0644
+
+- name: "Copy Prometheus USE rules to {{ prometheus_cfg_dir }}/use.yml"
+  template:
+    src: "templates/prometheus/use.yml.j2"
+    dest: "{{ prometheus_cfg_dir }}/use.yml"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644

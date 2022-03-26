@@ -3,7 +3,7 @@
     volumes:
       - "{{ loki_data_dir}}:/data/loki"
       - "{{ loki_cfg_dir }}/loki.yml:/etc/loki/local-config.yaml:ro"
-      - "{{ loki_cfg_dir }}/loki_alerts.yml:/etc/loki/rules/alerts/rules.yml:ro"
+      - "{{ loki_cfg_dir }}/alerts.yml:/etc/loki/rules/alerts/rules.yml:ro"
     ports:
       - "{{ loki_publish_port }}:3100"
     restart: unless-stopped
