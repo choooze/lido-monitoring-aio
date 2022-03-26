@@ -9,7 +9,6 @@
       - "{{ prometheus_cfg_dir }}/prometheus.yml:/etc/prometheus/prometheus.yml:ro"
       - "{{ prometheus_cfg_dir }}/alerts.yml:/etc/prometheus/alerts.yml:ro"
       - "{{ prometheus_cfg_dir }}/use.yml:/etc/prometheus/use.yml:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     ports:
       - "{{ prometheus_publish_port }}:9090"
     restart: unless-stopped
@@ -21,6 +20,28 @@
         reservations:
           cpus: "{{ prometheus_cpu_reserv }}"
           memory: "{{ prometheus_mem_reserv }}"
+
+  docker-api-socat:
+    image: tecnativa/docker-socket-proxy:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CONTAINERS: 1
+      NODES: 1
+      NETWORKS: 1
+      SERVICES: 1
+      TASKS: 1
+    logging:
+      driver: none
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          memory: 10M
+          cpus: '0.05'
+        limits:
+          memory: 20M
+          cpus: '0.1'
 {% if install_loki | bool %}
 {% include 'prometheus/logging-opts.yml.j2' %}
 {% endif %}
