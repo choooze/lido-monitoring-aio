@@ -5,8 +5,8 @@
 
 alertmanager_cfg_dir: "/opt/alertmanager"
 alertmanager_data_dir: "/data/alertmanager"
-alertmanager_data_user: "alertmanager"
-alertmanager_data_group: "alertmanager"
+alertmanager_data_user: "nobody"
+alertmanager_data_group: "nogroup"
 
 alertmanager_version: "latest"
 alertmanager_publish_port: "9093"

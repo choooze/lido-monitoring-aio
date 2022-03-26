@@ -1,17 +1,5 @@
 ---
 
-- name: "Add AlertManager group"
-  group:
-    name: "{{ alertmanager_data_group }}"
-    gid: 10010
-
-- name: "Add AlertManager user"
-  user:
-    name: "{{ alertmanager_data_user }}"
-    shell: "/usr/sbin/nologin"
-    group: "{{ alertmanager_data_group }}"
-    uid: 10010
-
 - name: "Create AlertManager cfg dir {{ alertmanager_cfg_dir }}"
   file:
     path: "{{ alertmanager_cfg_dir }}"
