@@ -13,6 +13,25 @@ services:
       - "{{ cadvisor_publish_port }}:8080"
     labels:
       - prometheus-job=cadvisor
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:{{ nodeexporter_version }}
+    ports:
+      - "{{ nodeexporter_publish_port }}:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro,rslave
+    command:
+      - '--path.rootfs=/rootfs'
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    labels:
+      - prometheus-job=node-exporter
+    restart: unless-stopped
 
 {% if shared_docker_network | bool %}
 networks:
