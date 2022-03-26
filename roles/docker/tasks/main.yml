@@ -1,6 +1,21 @@
 ---
+
+- name: "Check That Docker Installed"
+  command: docker --version
+  register: docker_output
+  ignore_errors: true
+
+- name: "Check That Docker Compose Installed"
+  command: docker-compose --version
+  register: docker_compose_output
+  ignore_errors: true
+
 - include_tasks: setup-deb.yml
-  when: ansible_os_family == 'Debian'
+  when: >
+    (ansible_os_family == 'Debian') and
+    (docker_output.failed)
 
 - include_tasks: docker-compose.yml
-  when: docker_install_compose | bool
+  when: >
+    (docker_install_compose | bool) and
+    (docker_compose_output.failed)
