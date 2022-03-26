@@ -19,6 +19,13 @@
     owner: "{{ monitoring_user }}"
     group: "{{ monitoring_user }}"
 
+- name: "Create Grafana dashboards dir {{ grafana_cfg_dir }}"
+  file:
+    path: "{{ grafana_cfg_dir }}/dashboards"
+    state: directory
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+
 - name: "Create Grafana data dir {{ grafana_data_dir }}"
   file:
     path: "{{ grafana_data_dir }}"
@@ -37,4 +44,5 @@
     - {src: 'grafana_dashboards.yml.j2', dest: '{{ grafana_cfg_dir }}/grafana_dashboards.yml'}
     - {src: 'grafana_datasources.yml.j2', dest: '{{ grafana_cfg_dir }}/grafana_datasources.yml'}
     - {src: 'grafana.ini.j2', dest: '{{ grafana_cfg_dir }}/grafana.ini'}
-    - {src: 'dashboards/grafana_default_dashboard.json.j2', dest: '{{ grafana_cfg_dir }}/grafana_default_dashboard.json'}
+    - {src: 'dashboards/grafana_default_dashboard.json.j2', dest: '{{ grafana_cfg_dir }}/dashboards/default_dashboard.json'}
+    - {src: 'dashboards/cadvisor_loki_dashboard.json.j2', dest: '{{ grafana_cfg_dir }}/dashboards/cadvisor_loki_dashboard.json'}
