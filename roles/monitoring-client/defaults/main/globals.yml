@@ -1,12 +1,5 @@
 ---
 
-# Shared Docker Network
-# If everything install on the same host
-# but we want to keep that posibility to use
-# different server/client hosts
-shared_docker_network: true
-shared_docker_network_name: "monitoring-network"
-
 monitoring_client_user: "mon-client"
 monitoring_client_home: "/opt/monitoring-client"
 

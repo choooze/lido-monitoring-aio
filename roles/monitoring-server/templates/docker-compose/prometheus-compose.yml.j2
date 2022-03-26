@@ -19,4 +19,7 @@
         reservations:
           cpus: "{{ prometheus_cpu_reserv }}"
           memory: "{{ prometheus_mem_reserv }}"
+{% if install_loki | bool %}
+{% include 'prometheus/logging-opts.yml.j2' %}
+{% endif %}
 

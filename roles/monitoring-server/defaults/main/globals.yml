@@ -3,21 +3,6 @@
 # Global things
 ####################
 
-# Shared Docker Network
-# If everything install on the same host
-# but we want to keep that posibility to use
-# different server/client hosts
-shared_docker_network: true
-shared_docker_network_name: "monitoring-network"
-
-# Switches
-install_prometheus: true
-install_grafana: true
-install_loki: true
-install_alertmanager: true
-# THAT ONE JUST FOR TESTING PURPOSES
-install_mailhog: true
-
 # Didn't make anything about TLS
 # for now it's fine
 monitoring_server_fqdn: "localhost"

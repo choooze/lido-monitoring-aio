@@ -15,4 +15,7 @@
         reservations:
           cpus: "{{ loki_cpu_reserv }}"
           memory: "{{ loki_mem_reserv }}"
+{% if install_loki | bool %}
+{% include 'loki/logging-opts.yml.j2' %}
+{% endif %}
 

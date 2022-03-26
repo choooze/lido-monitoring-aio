@@ -9,4 +9,7 @@
       - "{{ alertmanager_cfg_dir }}/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro"
     ports:
       - "{{ alertmanager_publish_port }}:9093"
+{% if install_loki | bool %}
+{% include 'alertmanager/logging-opts.yml.j2' %}
+{% endif %}
 
