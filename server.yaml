@@ -3,5 +3,5 @@
   become: true
   hosts: monitoring-server
   roles:
-#      - docker
+      - docker
       - monitoring-server

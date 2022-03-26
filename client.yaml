@@ -3,5 +3,5 @@
   become: true
   hosts: monitoring-client
   roles:
-#      - docker
+      - docker
       - monitoring-client
