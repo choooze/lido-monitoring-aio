@@ -1,18 +1,18 @@
 rule_files:
   - alerts.yml
 
-evaluation_interval: 10m
+evaluation_interval: 1m
 
 tests:
   - interval: 1m
     input_series:
       - series: node_memory_MemAvailable_bytes
-        values: 0+0x6
+        values: 0+0x3
       - series: node_memory_MemTotal_bytes
-        values: 100+0x6
+        values: 100+0x3
 
     alert_rule_test:
-      - eval_time: 10m
+      - eval_time: 2m
         alertname: HostOutOfMemory
         exp_alerts:
           - exp_labels:
@@ -20,3 +20,148 @@ tests:
             exp_annotations:
               summary: "Host out of memory (instance )"
               description: "Node memory is filling up (< 20% left)\n  VALUE = 0\n  LABELS = map[]"
+
+  - interval: 1s
+    input_series:
+      - series: node_network_receive_bytes_total{device="eth0"}
+        values: 0+20971520000x360
+
+    alert_rule_test:
+      - eval_time: 6m
+        alertname: HostUnusualNetworkThroughputIn
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              device: eth0
+            exp_annotations:
+              summary: "Host unusual network throughput in (instance )"
+              description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = 20000\n  LABELS = map[device:eth0]"
+
+  - interval: 1s
+    input_series:
+      - series: node_network_transmit_bytes_total{device="eth0"}
+        values: 0+20971520000x360
+
+    alert_rule_test:
+      - eval_time: 6m
+        alertname: HostUnusualNetworkThroughputOut
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              device: eth0
+            exp_annotations:
+              summary: "Host unusual network throughput out (instance )"
+              description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = 20000\n  LABELS = map[device:eth0]"
+
+  - interval: 1m
+    input_series:
+      - series: node_filesystem_avail_bytes{instance="test", device="sda1", mountpoint="/"}
+        values: 10x4
+      - series: node_filesystem_size_bytes{instance="test", device="sda1", mountpoint="/"}
+        values: 1000x4
+      - series: node_filesystem_readonly{instance="test", device="sda1", mountpoint="/"}
+        values: 0x4
+
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: HostOutOfDiskSpace
+        exp_alerts:
+          - exp_labels:
+              instance: test
+              device: sda1
+              severity: warning
+              mountpoint: /
+            exp_annotations:
+              summary: "Host out of disk space (instance )"
+              description: "Disk is almost full (< 10% left)\n  VALUE = 1\n  LABELS = map[device:sda1 instance:test mountpoint:/]"
+
+  - interval: 1m
+    input_series:
+      - series: node_filesystem_files_free{instance="test", device="sda1", mountpoint="/"}
+        values: 5x4
+      - series: node_filesystem_files{instance="test", device="sda1", mountpoint="/"}
+        values: 1000x4
+      - series: node_filesystem_readonly{instance="test", device="sda1", mountpoint="/"}
+        values: 0x4
+
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: HostOutOfInodes
+        exp_alerts:
+          - exp_labels:
+              instance: test
+              device: sda1
+              severity: warning
+              mountpoint: /
+            exp_annotations:
+              summary: "Host out of inodes (instance )"
+              description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = 0.5\n  LABELS = map[device:sda1 instance:test mountpoint:/]"
+
+  - interval: 1s
+    input_series:
+      - series: node_cpu_seconds_total{mode="idle"}
+        values: 10x120
+
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: HostHighCpuLoad
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: "Host high CPU load (instance )"
+              description: "CPU load is > 80%\n  VALUE = 100\n  LABELS = map[]"
+
+  - interval: 1m
+    input_series:
+      - series: node_memory_SwapFree_bytes
+        values: 5x4
+      - series: node_memory_SwapTotal_bytes
+        values: 1000x4
+
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: HostSwapIsFillingUp
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: "Host swap is filling up (instance )"
+              description: "Swap is filling up (>80%)\n  VALUE = 99.5\n  LABELS = map[]"
+
+  - interval: 1s
+    input_series:
+      - series: node_network_receive_errs_total{device="eth0"}
+        values: 0+2097152000x180
+      - series: node_network_receive_packets_total{device="eth0"}
+        values: 0+20971520000x180
+
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: HostNetworkReceiveErrors
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              device: eth0
+            exp_annotations:
+              summary: "Host Network Receive Errors (instance )"
+              description: "Host  interface eth0 has encountered 0 receive errors in the last two minutes.\n  VALUE = 0.1\n  LABELS = map[device:eth0]"
+
+  - interval: 1s
+    input_series:
+      - series: node_network_transmit_errs_total{device="eth0"}
+        values: 0+2097152000x180
+      - series: node_network_transmit_packets_total{device="eth0"}
+        values: 0+20971520000x180
+
+    alert_rule_test:
+      - eval_time: 3m
+        alertname: HostNetworkTransmitErrors
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+              device: eth0
+            exp_annotations:
+              summary: "Host Network Transmit Errors (instance )"
+              description: "Host  interface eth0 has encountered 0 transmit errors in the last two minutes.\n  VALUE = 0.1\n  LABELS = map[device:eth0]"
+
