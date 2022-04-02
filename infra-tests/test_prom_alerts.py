@@ -17,6 +17,24 @@ def test_aliveness():
     response = requests.get(url=prom_api+path, params=query)
     assert response.status_code == 200
 
+# Checking cadvisor
+def test_cadvisror():
+    path = "/api/v1/query"
+    query = {
+        'query': 'cadvisor_version_info',
+    }
+    response = requests.get(url=prom_api+path, params=query)
+    assert response.status_code == 200
+
+# Checking node exporter
+def test_nodeexporter():
+    path = "/api/v1/query"
+    query = {
+        'query': 'node_os_version',
+    }
+    response = requests.get(url=prom_api+path, params=query)
+    assert response.status_code == 200
+
 # Check that our rule list is correct
 #
 # TODO: 
