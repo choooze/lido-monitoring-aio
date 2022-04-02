@@ -17,8 +17,8 @@ def test_aliveness():
     assert response.status_code == 200
 
 
-# Here we will start a little docker container
-# with all labels and generate log-string
+# Here we will start a tiny docker container
+# with all needed labels and will generate log-string
 #
 # Will use random string for log line
 loki_log_line = str(uuid.uuid4())
@@ -26,14 +26,20 @@ loki_log_line = str(uuid.uuid4())
 def test_docker_log_line_to_loki(host):
     docker_run = host.run("docker run --rm --name my-service "
                            "--log-driver=loki --log-opt loki-url=\"http://localhost:3100/loki/api/v1/push\" "
-                           "-l com.docker.compose.service=myapp alpine sh -c \"echo " +
-                            loki_log_line + "\"")
+                           "-l com.docker.compose.service=myapp alpine sh -c \"echo "
+                            + loki_log_line 
+                            + "\"")
     assert docker_run.rc == 0
 
-# Checking loki API to find a string
+# Checking loki API to find a log-string
+#
+# We should use host's time
+def test_get_host_epoch(host):
+    global epoch
+    epoch = int(time.time())
+
 def test_log_line_in_loki():
     # Searching only in range of 8 seconds
-    epoch = int(time.time())
     start_epoch = epoch - 4
     end_epoch = epoch + 4
     path = "/loki/api/v1/query_range"
