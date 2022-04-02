@@ -3,6 +3,7 @@ import requests
 import json
 import time
 import uuid
+import jq
 
 loki_host = "mon-server.illcheck.you"
 loki_scheme = "http://"
@@ -39,9 +40,9 @@ def test_get_host_epoch(host):
     epoch = int(time.time())
 
 def test_log_line_in_loki():
-    # Searching only in range of 8 seconds
-    start_epoch = epoch - 4
-    end_epoch = epoch + 4
+    # Searching only in range of 1 minute
+    start_epoch = epoch - 30
+    end_epoch = epoch + 30
     path = "/loki/api/v1/query_range"
     query = { 
         'start': start_epoch,
@@ -52,5 +53,6 @@ def test_log_line_in_loki():
     j_response = json.loads(response.text)
     assert response.status_code == 200
     assert response.headers["Content-Type"] == "text/plain; charset=utf-8"
-    log_line = j_response['data']['result'][0]['values'][0][1]
-    assert log_line == loki_log_line
+    log_line = jq.all(".data | .result | .[] | .values | .[] | .[1]", j_response)
+    assert loki_log_line in log_line
+
