@@ -12,7 +12,7 @@ groups:
           description: "Node memory is filling up (< 20% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
       - alert: HostUnusualNetworkThroughputIn
-        expr: sum by (custom_nodename, device) (rate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 100
+        expr: sum by (custom_nodename, device) (rate(node_network_receive_bytes_total[2m])) / 1000 / 1000 > 100
         for: 5m
         labels:
           severity: warning
@@ -21,7 +21,7 @@ groups:
           description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     
       - alert: HostUnusualNetworkThroughputOut
-        expr: sum by (custom_nodename, device) (rate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 100
+        expr: sum by (custom_nodename, device) (rate(node_network_transmit_bytes_total[2m])) / 1000 / 1000 > 100
         for: 5m
         labels:
           severity: warning
