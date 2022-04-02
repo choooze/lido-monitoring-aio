@@ -43,3 +43,11 @@
     owner: "{{ monitoring_user }}"
     group: "{{ monitoring_user }}"
     mode: 0644
+
+- name: "Copy Prometheus unittest rules to {{ prometheus_cfg_dir }}/unittest.yml"
+  template:
+    src: "templates/prometheus/unittest.yml.j2"
+    dest: "{{ prometheus_cfg_dir }}/unittest.yml"
+    owner: "{{ monitoring_user }}"
+    group: "{{ monitoring_user }}"
+    mode: 0644

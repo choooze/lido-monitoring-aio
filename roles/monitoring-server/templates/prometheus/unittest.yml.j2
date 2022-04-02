@@ -1,0 +1,22 @@
+rule_files:
+  - alerts.yml
+
+evaluation_interval: 10m
+
+tests:
+  - interval: 1m
+    input_series:
+      - series: node_memory_MemAvailable_bytes
+        values: 0+0x6
+      - series: node_memory_MemTotal_bytes
+        values: 100+0x6
+
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: HostOutOfMemory
+        exp_alerts:
+          - exp_labels:
+              severity: warning
+            exp_annotations:
+              summary: "Host out of memory (instance )"
+              description: "Node memory is filling up (< 20% left)\n  VALUE = 0\n  LABELS = map[]"
