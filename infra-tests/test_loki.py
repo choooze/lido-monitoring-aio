@@ -37,7 +37,8 @@ def test_docker_log_line_to_loki(host):
 # We should use host's time
 def test_get_host_epoch(host):
     global epoch
-    epoch = int(time.time())
+    epoch_run = host.run("date +%s")
+    epoch = int(epoch_run.stdout)
 
 def test_log_line_in_loki():
     # Searching only in range of 1 minute
